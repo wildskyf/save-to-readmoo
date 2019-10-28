@@ -2,12 +2,12 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "save-to-readmoo@wildsky.cc",
-      "strict_min_version": "53.0"
+      "strict_min_version": "55.0"
     }
   },
 
   "name": "Save to Readmoo",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Save current page url to readmoo bookshelf.",
   "manifest_version": 2,
   "background": {
@@ -29,10 +29,12 @@
   ],
 
   "browser_action": {
-    "default_icon": "images/icon.png",
+    "default_icon": "icon.png",
     "default_title": "Save to Readmoo"
   },
   "icons": {
+    "48": "icon-48.png",
+    "96": "icon-96.png"
   },
   "permissions": [
     "storage",
