@@ -1,0 +1,42 @@
+{
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "save-to-readmoo@wildsky.cc",
+      "strict_min_version": "53.0"
+    }
+  },
+
+  "name": "Save to Readmoo",
+  "version": "1.0.0",
+  "description": "Save current page url to readmoo bookshelf.",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://*.readmoo.com/*"],
+      "js": ["content_script.js"],
+      "css": ["content_script.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://*.readmoo.com/*"],
+      "css": ["content_script.css"],
+      "run_at": "document_start"
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_title": "Save to Readmoo"
+  },
+  "icons": {
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "https://api.readmoo.com/store/v3"
+  ]
+}

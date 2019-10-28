@@ -1,0 +1,53 @@
+/* eslint-env browser, webextensions */
+
+(() => {
+  const setToken = token => browser.storage.local.set({ token })
+  const getToken = () => browser.storage.local.get('token')
+  const openLoginPage = () => browser.tabs.create({ url: 'https://read.readmoo.com' })
+
+  ;(async () => {
+    const { token } = await getToken()
+    if (!token) {
+      openLoginPage()
+    }
+  })()
+
+  browser.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    if (!req || !req.type) {
+      console.error('Req Format not correct', req)
+    }
+
+    switch (req.type) {
+      case 'save_token': {
+        setToken(req.token).then(() => console.log('token saved'))
+        break
+      }
+      default: {
+        console.warn('Not defined behavior', req)
+      }
+    }
+  })
+
+  browser.browserAction.onClicked.addListener(async tab => {
+    const apiUrl = 'https://api.readmoo.com/store/v3/me/documents/'
+    const urlToSave = tab.url
+    const { token } = await getToken()
+
+    if (!token) { openLoginPage() }
+
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: { type: 'documents' },
+        meta: { webpage: urlToSave }
+      }),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/vnd.api+json'
+      }
+    }).then(r => r.json())
+
+    console.log(res)
+    // TODO: handle successful message
+  })
+})()
