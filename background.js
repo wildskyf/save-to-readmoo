@@ -28,14 +28,14 @@
     }
   })
 
-  browser.browserAction.onClicked.addListener(async tab => {
+  browser.browserAction.onClicked.addListener(async ({ url, id }) => {
     const apiUrl = 'https://api.readmoo.com/store/v3/me/documents/'
-    const urlToSave = tab.url
+    const urlToSave = url
     const { token } = await getToken()
 
     if (!token) { openLoginPage() }
 
-    const res = await fetch(apiUrl, {
+    await fetch(apiUrl, {
       method: 'POST',
       body: JSON.stringify({
         data: { type: 'documents' },
@@ -47,7 +47,6 @@
       }
     }).then(r => r.json())
 
-    console.log(res)
-    // TODO: handle successful message
+    browser.tabs.sendMessage(id, { type: 'save_url_success' })
   })
 })()

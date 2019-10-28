@@ -1,8 +1,8 @@
-.save-to-readmoo-hint {
+.save-to-readmoo-message {
   display: block;
   position: fixed;
   box-sizing: border-box;
-  top: -3rem;
+  top: -5rem;
   text-align: center;
   left: 0;
   right: 0;
@@ -10,8 +10,10 @@
   background: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   transition: top .3s;
+  z-index: 999;
+  cursor: pointer;
 }
 
-.save-to-readmoo-hint.show {
+.save-to-readmoo-message.show {
   top: 0;
 }

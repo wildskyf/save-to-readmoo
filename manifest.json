@@ -16,13 +16,13 @@
 
   "content_scripts": [
     {
-      "matches": ["https://*.readmoo.com/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["content_script.js"],
       "css": ["content_script.js"],
       "run_at": "document_end"
     },
     {
-      "matches": ["https://*.readmoo.com/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "css": ["content_script.css"],
       "run_at": "document_start"
     }

@@ -2,26 +2,37 @@
 // https://api.readmoo.com/store/v3
 
 (() => {
+  const createMessage = text => {
+    const hintMessage = document.createElement('div')
+    hintMessage.classList.add('save-to-readmoo-message')
+    hintMessage.textContent = text
+
+    hintMessage.addEventListener('click', () => {
+      hintMessage.classList.remove('show')
+      setTimeout(() => hintMessage.remove(), 1000)
+    })
+
+    document.body.append(hintMessage)
+    setTimeout(() => hintMessage.classList.add('show'), 500)
+  }
+
   window.addEventListener('load', () => {
-    const showHint = () => {
-      const hintMessage = document.createElement('div')
-      hintMessage.classList.add('save-to-readmoo-hint')
-      hintMessage.textContent = '初次安裝 Save to Readmoo 套件請先登入，以便取得用來儲存網址的 API 金鑰。'
-      document.body.append(hintMessage)
-      setTimeout(() => hintMessage.classList.add('show'), 500)
-    }
-    const saveToken = token => {
+    if (location.href.includes('readmoo')) {
+      const token = localStorage.getItem('READ_TOKEN')
+      if (!token) {
+        return createMessage('初次安裝 Save to Readmoo 套件請先登入，以便取得用來儲存網址的 API 金鑰。')
+      }
+
       browser.runtime.sendMessage({
         type: 'save_token',
         token
       })
     }
 
-    const token = localStorage.getItem('READ_TOKEN')
-    if (!token) {
-      return showHint()
-    }
-
-    saveToken(token)
+    browser.runtime.onMessage.addListener((req) => {
+      if (req.type === 'save_url_success') {
+        createMessage('網址已成功存入 Readmoo 書櫃。')
+      }
+    })
   })
 })()
