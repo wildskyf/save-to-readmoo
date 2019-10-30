@@ -2,7 +2,7 @@
 // https://api.readmoo.com/store/v3
 
 (() => {
-  const createMessage = text => {
+  const createMessage = (text, alwaysShow) => {
     const hintMessage = document.createElement('div')
     hintMessage.classList.add('save-to-readmoo-message')
     hintMessage.textContent = text
@@ -14,6 +14,9 @@
 
     document.body.append(hintMessage)
     setTimeout(() => hintMessage.classList.add('show'), 500)
+    if (!alwaysShow) {
+      setTimeout(() => hintMessage.click(), 3000)
+    }
   }
 
   window.addEventListener('load', () => {
