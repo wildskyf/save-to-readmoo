@@ -11,19 +11,26 @@
   "description": "Save current page url to readmoo bookshelf.",
   "manifest_version": 2,
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "browser-polyfill.min.js",
+      "background.js"
+    ]
   },
 
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["content_script.js"],
-      "css": ["content_script.js"],
+      "js": [
+        "browser-polyfill.min.js",
+        "content_script.js"
+      ],
       "run_at": "document_end"
     },
     {
       "matches": ["http://*/*", "https://*/*"],
-      "css": ["content_script.css"],
+      "css": [
+        "content_script.css"
+      ],
       "run_at": "document_start"
     }
   ],
