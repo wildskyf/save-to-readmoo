@@ -3,6 +3,7 @@
 (() => {
   const setToken = token => browser.storage.local.set({ token })
   const getToken = () => browser.storage.local.get('token')
+  const removeToken = () => browser.storage.local.remove('token')
   const openLoginPage = () => browser.tabs.create({ url: 'https://read.readmoo.com' })
 
   ;(async () => {
@@ -18,14 +19,23 @@
     }
 
     switch (req.type) {
+      case 'check_token': {
+        getToken().then(({ token }) => sendResponse({ hasToken: !!token }))
+        break
+      }
       case 'save_token': {
         setToken(req.token).then(() => console.log('token saved'))
+        break
+      }
+      case 'remove_token': {
+        removeToken()
         break
       }
       default: {
         console.warn('Not defined behavior', req)
       }
     }
+    return true
   })
 
   browser.browserAction.onClicked.addListener(async ({ url, id }) => {
