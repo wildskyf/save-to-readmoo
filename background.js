@@ -57,6 +57,7 @@
       }
     }).then(r => r.json())
 
-    browser.tabs.sendMessage(id, { type: 'save_url_success' })
+    await browser.tabs.insertCSS({ file: 'notification.css' })
+    browser.tabs.executeScript({ file: 'success-save.js' })
   })
 })()
